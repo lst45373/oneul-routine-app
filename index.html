@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="오늘 루틴" />
+  <link rel="manifest" href="manifest.json" />
+  <title>오늘 루틴</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 1.5rem; margin-top: 1rem; box-shadow: 0 0 8px rgba(0,0,0,0.05); }
+    .btn { padding: 0.6rem 1.2rem; background: black; color: white; border-radius: 8px; cursor: pointer; }
+    select, textarea { width: 100%; padding: 0.5rem; margin-top: 0.5rem; }
+  </style>
+</head>
+<body>
+  <h1>오늘 루틴 보기 💪</h1>
+  <label>현재 주차 선택</label>
+  <select id="week-select">
+    <option>1주차</option>
+    <option>2주차</option>
+    <option>3주차</option>
+    <option>4주차</option>
+  </select>
+  <div style="margin-top:1rem;">
+    <button class="btn" onclick="showRoutine()">루틴 불러오기</button>
+  </div>
+  <div id="routine-container" class="card" style="display:none;"></div>
+
+  <script>
+    const weeklyRoutines = {
+      "1주차": [
+        { title: "PUSH 루틴", description: ["해머 숄더프레스", "스미스 인클라인 벤치프레스"] },
+        { title: "PULL 루틴", description: ["노틸러스 풀오버", "랫풀다운"] },
+        { title: "LEGS 루틴", description: ["브이스쿼트", "레그익스텐션"] }
+      ],
+      "2주차": [],
+      "3주차": [],
+      "4주차": []
+    };
+
+    const routineOrder = ["PUSH 루틴", "PULL 루틴", "LEGS 루틴"];
+    let routineIndex = 0;
+
+    function showRoutine() {
+      const week = document.getElementById('week-select').value;
+      const container = document.getElementById('routine-container');
+      const routines = weeklyRoutines[week];
+      const routine = routines[routineIndex % routines.length];
+      routineIndex++;
+
+      let html = "<h2>" + week + " - " + routine.title + "</h2><ul>";
+      routine.description.forEach(item => {
+        html += "<li>" + item + "</li>";
+      });
+      html += "</ul><label>오늘 기록</label><textarea rows='4' placeholder='세트수, 무게, 느낌 등'></textarea>";
+      container.innerHTML = html;
+      container.style.display = "block";
+    }
+  </script>
+</body>
+</html>
